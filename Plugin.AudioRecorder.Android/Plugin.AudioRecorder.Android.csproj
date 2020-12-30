@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Plugin.AudioRecorder</RootNamespace>
     <AssemblyName>Plugin.AudioRecorder</AssemblyName>
-    <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
   </PropertyGroup>
@@ -44,9 +44,6 @@
     <Compile Include="AudioRecorderService.cs" />
     <Compile Include="AudioStream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="..\Plugin.AudioRecorder.Shared\Plugin.AudioRecorder.Shared.projitems" Label="Shared" Condition="Exists('..\Plugin.AudioRecorder.Shared\Plugin.AudioRecorder.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
