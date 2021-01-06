@@ -30,7 +30,7 @@ namespace Plugin.AudioRecorder
 			}
 		}
 
-		internal static void WriteWavHeader (BinaryWriter writer, int channelCount, int sampleRate, int bitsPerSample, int audioLength = -1)
+		internal static void WriteWavHeader (BinaryWriter writer, int channelCount, int sampleRate, int bitsPerSample, long audioLength = -1)
 		{
 			var blockAlign = (short) (channelCount * (bitsPerSample / 8));
 			var averageBytesPerSecond = sampleRate * blockAlign;

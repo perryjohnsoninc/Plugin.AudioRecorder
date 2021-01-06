@@ -11,8 +11,8 @@ namespace Plugin.AudioRecorder
 		string audioFilePath;
 		FileStream fileStream;
 		StreamWriter streamWriter;
-		BinaryWriter writer;
-		int byteCount;
+		internal BinaryWriter writer;
+		long byteCount;
 		IAudioStream audioStream;
 
 		/// <summary>
@@ -42,7 +42,7 @@ namespace Plugin.AudioRecorder
 				streamWriter = new StreamWriter (fileStream);
 				writer = new BinaryWriter (streamWriter.BaseStream, Encoding.UTF8);
 
-				byteCount = 0;
+				byteCount = fileStream.Length;
 				audioStream.OnBroadcast += OnStreamBroadcast;
 				audioStream.OnActiveChanged += StreamActiveChanged;
 
@@ -132,6 +132,86 @@ namespace Plugin.AudioRecorder
 				throw;
 			}
 		}
+
+
+		/// <summary>
+		/// Pauses recording WAV audio from the underlying <see cref="IAudioStream"/>.
+		/// </summary>
+		public void PauseRecorder()
+		{
+			try
+			{
+				if (audioStream != null)
+				{
+					audioStream.OnBroadcast -= OnStreamBroadcast;
+					audioStream.OnActiveChanged -= StreamActiveChanged;
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine("Error during PauseRecorder: {0}", ex.Message);
+				throw;
+			}
+		}
+
+
+		/// <summary>
+		/// Resumes recording WAV audio from the underlying <see cref="IAudioStream"/>.
+		/// </summary>
+		public void ResumeRecorder()
+		{
+			try
+			{
+				if (audioStream != null)
+				{
+					audioStream.OnBroadcast += OnStreamBroadcast;
+					audioStream.OnActiveChanged += StreamActiveChanged;
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine("Error during PauseRecorder: {0}", ex.Message);
+				throw;
+			}
+		}
+
+
+		public void Seek(int offset, SeekOrigin seekOrigin = SeekOrigin.Begin)
+		{
+			try
+			{
+				if (audioStream != null)
+				{
+					//if (seekOrigin == SeekOrigin.Begin)
+					//	byteCount = offset;
+					//else if (seekOrigin == SeekOrigin.Current)
+					//	byteCount = writer.BaseStream.Position + offset;
+					//else if (seekOrigin == SeekOrigin.End)
+					//	byteCount = writer.BaseStream.Position + offset;
+					//if (byteCount > writer.BaseStream.Length)
+					//{
+					//	byteCount = writer.BaseStream.Length;
+					//}
+					//else if (byteCount < 0)
+					//{
+					//	byteCount = 0;
+					//}
+
+					PauseRecorder();
+
+					writer.Seek(offset, seekOrigin);
+					byteCount = writer.BaseStream.Length;
+
+					ResumeRecorder();
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine("Error during PauseRecorder: {0}", ex.Message);
+				throw;
+			}
+		}
+
 
 		public void Dispose ()
 		{

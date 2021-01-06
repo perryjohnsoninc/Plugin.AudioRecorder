@@ -126,6 +126,34 @@ namespace Plugin.AudioRecorder
 			return recordTask.Task;
 		}
 
+
+		/// <summary>
+		/// Pauses recording audio.
+		/// </summary>
+		public void PauseRecording()
+		{
+			recorder.PauseRecorder();
+		}
+
+
+		/// <summary>
+		/// Resumes recording audio.
+		/// </summary>
+		public void ResumeRecording()
+		{
+			recorder.ResumeRecorder();
+		}
+
+
+		/// <summary>
+		/// Resumes recording audio.
+		/// </summary>
+		public void Seek(int offset, SeekOrigin seekOrigin = SeekOrigin.Begin)
+		{
+			recorder.Seek(offset, seekOrigin);
+		}
+
+
 		/// <summary>
 		/// Gets a new <see cref="Stream"/> to the recording audio file in readonly mode.
 		/// </summary>
@@ -134,6 +162,17 @@ namespace Plugin.AudioRecorder
 		{
 			return recorder.GetAudioFileStream ();
 		}
+
+
+		/// <summary>
+		/// Gets the underlying <see cref="BinaryWriter"/> to the recording audio file.
+		/// </summary>
+		/// <returns>A <see cref="BinaryWriter"/> object that can be used to manipulate the underlying stream
+		public BinaryWriter AudioWriter
+		{
+			get => recorder.writer;
+		}
+
 
 		void ResetAudioDetection ()
 		{
